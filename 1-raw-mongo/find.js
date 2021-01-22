@@ -1,15 +1,14 @@
 const db = require('./db');
 
 db.getCollection('people').then((people) => {
-    return people.find({
-        firstName: 'Anthony'
+    let findCursor = people.find({
+        firstName: { $in: [ "Greg", "Al"] }
     })
-    .then((findCursor) => {
-        return findCursor.toArray()
-    })
-    .then((results) => {
-        console.log(results)
-    })
+    return findCursor.toArray()
+        .then((results) => {
+            console.log("Found: " + results.length + " documents!")
+            console.log(results)
+        })
 })
 .then(() => {
     db.close()
